@@ -1,0 +1,24 @@
+<h1>{{ title }}</h1>
+
+<table>
+    <tr>
+        <td>Vin</td>
+        <td>Model</td>
+        <td>Type</td>
+        <td>Price</td>
+        <td>BuyYear</td>
+        <td>Customer_Ssn</td>
+        <td>Reservation</td>
+    </tr>
+    {{#each vehicle}}
+    <tr>
+        <td>{{Vin}}</td>
+        <td>{{Model}}</td>
+        <td>{{Type}}</td>
+        <td>{{Price}}</td>
+        <td>{{BuyYear}}</td>
+        <td>{{Customer_Ssn}}</td>
+        <td>{{Reservation}}</td>
+    </tr>
+    {{/each}}
+</table>
