@@ -1,4 +1,4 @@
-<h1>{{ title }}</h1>
+<h1>{{ title1 }}</h1>
 
 <table>
     <tr>
@@ -7,18 +7,87 @@
         <td>Type</td>
         <td>Price</td>
         <td>BuyYear</td>
-        <td>Customer_Ssn</td>
-        <td>Reservation</td>
     </tr>
     {{#each vehicle}}
+    <form method="post">
     <tr>
         <td>{{Vin}}</td>
         <td>{{Model}}</td>
         <td>{{Type}}</td>
         <td>{{Price}}</td>
         <td>{{BuyYear}}</td>
-        <td>{{Customer_Ssn}}</td>
-        <td>{{Reservation}}</td>
+        <td style="border: none; margin-left: 5px; width:70px">
+            <button 
+            style="margin-left: 10px;" 
+            name="updBtnV"
+            type="submit" 
+            value="{{Vin}}"
+            >
+            수정
+            </button>
+        </td>
+        <td style="border: none; margin-left: 5px; width:70px">
+            <button 
+            style="margin-left: 10px;" 
+            name="delBtnV"
+            type="submit" 
+            value="{{Vin}}"
+            >
+            삭제
+            </button>
+        </td>
     </tr>
+    </form>
+    {{/each}}
+</table>
+
+<h1>{{ title2 }}</h1>
+
+<table>
+    <tr>
+        <td>idSale</td>
+        <td>Vehicle_Vin</td>
+        <td>Customer_Ssn</td>
+        <td>State</td>
+    </tr>
+    {{#each sale}}
+    <form method="post">
+    <tr>
+        <td>{{idSale}}</td>
+        <td>{{Vehicle_Vin}}</td>
+        <td>{{Customer_Ssn}}</td>
+        <td>{{State}}</td>
+        <td style="border: none; margin-left: 5px; width:60px">
+            <button 
+            style="margin-left: 10px;" 
+            name="updBtnS"
+            type="submit" 
+            value="{{idSale}}"
+            >
+            수정
+            </button>
+        </td>
+        <td style="border: none; margin-left: 5px; width:100px">
+            <button 
+            style="margin-left: 10px;" 
+            name="SuccessBtnS" 
+            type="submit" 
+            value="{{idSale}}"
+            >
+            판매 성공
+            </button>
+        </td>
+        <td style="border: none; margin-left: 5px; width:100px">
+            <button 
+            style="margin-left: 10px;" 
+            name="failBtnS" 
+            type="submit" 
+            value="{{idSale}}"
+            >
+            판매 실패
+            </button>
+        </td>
+    </tr>
+    </form>
     {{/each}}
 </table>

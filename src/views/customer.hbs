@@ -1,4 +1,4 @@
-<h1>{{ title }}</h1>
+<h1>{{ title1 }}</h1>
 
 <table>
     <tr>
@@ -7,18 +7,74 @@
         <td>Type</td>
         <td>Price</td>
         <td>BuyYear</td>
-        <td>Customer_Ssn</td>
-        <td>Reservation</td>
     </tr>
-    {{#each vehicle}}
+    {{#each vehicle2}}
+    <form method="post">
     <tr>
         <td>{{Vin}}</td>
         <td>{{Model}}</td>
         <td>{{Type}}</td>
         <td>{{Price}}</td>
         <td>{{BuyYear}}</td>
+        <td style="border: none; margin-left: 5px; width:100px">
+            <button 
+            style="margin-left: 10px;" 
+            name="ingBtn" 
+            type="submit" 
+            value="{{Vin}}"
+            >
+            예약하기
+            </button>
+        </td>
+    </tr>
+    </form>
+    {{/each}}
+</table>
+
+<h1>{{ title2 }}</h1>
+
+<table>
+    <tr>
+        <td>idSale</td>
+        <td>Vehicle_Vin</td>
+        <td>Customer_Ssn</td>
+        <td>State</td>
+    </tr>
+    {{#each ingSale}}
+    <form method="post">
+        <td>{{idSale}}</td>
+        <td>{{Vehicle_Vin}}</td>
         <td>{{Customer_Ssn}}</td>
-        <td>{{Reservation}}</td>
+        <td>{{State}}</td>
+        <td style="border: none; margin-left: 5px; width:100px">
+            <button 
+            style="margin-left: 10px;" 
+            name="failBtn" 
+            type="submit" 
+            value="{{idSale}}"
+            >
+            예약 취소
+            </button>
+        </td>
+    </tr>
+    </form>
+    {{/each}}
+</table>
+
+<h1>{{ title3 }}</h1>
+
+<table>
+    <tr>
+        <td>idSale</td>
+        <td>Vehicle_Vin</td>
+        <td>Customer_Ssn</td>
+        <td>State</td>
+    </tr>
+    {{#each doneSale}}
+        <td>{{idSale}}</td>
+        <td>{{Vehicle_Vin}}</td>
+        <td>{{Customer_Ssn}}</td>
+        <td>{{State}}</td>
     </tr>
     {{/each}}
 </table>

@@ -12,20 +12,20 @@ router.post('/', async (req,res) => {
     const admin = await selectSql.getAdmin();
     const customer = await selectSql.getCustomer();
     let whoAmI = '';
+    let ssn = '';
     let checkLogin = false;
 
     admin.map((user) => {
         if(vars.id === user.id && vars.password === user.pwd) {
-            console.log('login success!');
             checkLogin = true;
             whoAmI = 'admin';
         }
     })
     customer.map((user) => {
         if(vars.id === user.id && vars.password === user.pwd) {
-            console.log('login success!');
             checkLogin = true;
             whoAmI = 'customer';
+            ssn = user.Ssn;
         }
     })
 
@@ -33,7 +33,7 @@ router.post('/', async (req,res) => {
         res.redirect('/admin');
         console.log('login admin!');
     } else if(checkLogin && whoAmI === 'customer'){
-        res.redirect('/customer');
+        res.redirect('/customer?ssn=' + ssn);
         console.log('login customer!');
     } else {
         console.log('login failed!');
