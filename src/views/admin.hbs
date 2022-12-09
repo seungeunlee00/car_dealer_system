@@ -12,10 +12,10 @@
     <form method="post">
     <tr>
         <td>{{Vin}}</td>
-        <td>{{Model}}</td>
-        <td>{{Type}}</td>
-        <td>{{Price}}</td>
-        <td>{{BuyYear}}</td>
+        <td><input type="text" name="model" placeholder={{Model}} value={{Model}} /></td>
+        <td><input type="text" name="type" placeholder={{Type}} value={{Type}} /></td>
+        <td><input type="text" name="price" placeholder={{Price}} value={{Price}} /></td>
+        <td><input type="text" name="buyyear" placeholder={{BuyYear}} value={{BuyYear}} /></td>
         <td style="border: none; margin-left: 5px; width:70px">
             <button 
             style="margin-left: 10px;" 
@@ -41,6 +41,28 @@
     {{/each}}
 </table>
 
+<table>
+ <form method="post">
+    <tr>
+        <td></td>
+        <td><input type="text" name="newmodel" /></td>
+        <td><input type="text" name="newtype" /></td>
+        <td><input type="text" name="newprice" /></td>
+        <td><input type="text" name="newbuyyear" /></td>
+        <td style="border: none; margin-left: 5px; width:70px">
+            <button 
+            style="margin-left: 10px;" 
+            name="insBtnV"
+            type="submit" 
+            value="{{Vin}}"
+            >
+            추가
+            </button>
+        </td>
+</table>
+
+
+
 <h1>{{ title2 }}</h1>
 
 <table>
@@ -54,9 +76,9 @@
     <form method="post">
     <tr>
         <td>{{idSale}}</td>
-        <td>{{Vehicle_Vin}}</td>
-        <td>{{Customer_Ssn}}</td>
-        <td>{{State}}</td>
+        <td><input type="text" name="vehicle_vin" placeholder={{Vehicle_Vin}} value={{Vehicle_Vin}} /></td>
+        <td><input type="text" name="customer_ssn" placeholder={{Customer_Ssn}} value={{Customer_Ssn}} /></td>
+        <td><input type="text" name="state" placeholder={{State}} value={{State}} /></td>
         <td style="border: none; margin-left: 5px; width:60px">
             <button 
             style="margin-left: 10px;" 

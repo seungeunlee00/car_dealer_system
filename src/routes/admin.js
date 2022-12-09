@@ -19,11 +19,22 @@ router.post('/', async(req, res) => {
     const data = {
         vinD: req.body.delBtnV,
         vinU: req.body.updBtnV,
+        model: req.body.model,
+        type: req.body.type,
+        price: req.body.price,
+        buyyear: req.body.buyyear,
+        vinI: req.body.insBtnV,
+        newmodel: req.body.newmodel,
+        newtype: req.body.newtype,
+        newprice: req.body.newprice,
+        newbuyyear: req.body.newbuyyear,
         idSaleU: req.body.updBtnS,
+        vehicle_vin: req.body.vehicle_vin,
+        customer_ssn: req.body.customer_ssn,
+        state: req.body.state,
         idSaleS: req.body.SuccessBtnS,
         idSaleF: req.body.failBtnS
     };
-    //console.log(data);
 
     if(data.vinD !== undefined){
         console.log(data.vinD);
@@ -32,6 +43,10 @@ router.post('/', async(req, res) => {
     else if(data.vinU !== undefined){
         console.log(data.vinU);
         await updateSql.updateVehicle(data);
+    }
+    else if(data.vinI !==undefined){
+        console.log(data.vinI);
+        await insertSql.insertVehicle(data);
     }
     else if(data.idSaleU !== undefined){
         console.log(data.idSaleU);

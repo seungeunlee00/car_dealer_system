@@ -79,9 +79,10 @@ export const deleteSql = {
 
 // update query
 export const updateSql = {
-    updateVehicle: async() => { // 관리자 - 차량 정보 수정
+    updateVehicle: async(data) => { // 관리자 - 차량 정보 수정
         console.log(data);
-        const sql = `update vehicle from vehicle where vin=${data.vinU}`;
+        const sql = `update vehicle set model='${data.model}', type='${data.type}', 
+        price='${data.price}', buyyear='${data.buyyear}' where vin=${data.vinU}`;
         
         await promisePool.query(sql);
     },
@@ -109,7 +110,7 @@ export const updateSql = {
 export const insertSql = {
     insertVehicle: async (data) => { // 관리자 - 차량 정보 입력
         console.log(data);
-        const sql = `insert into vehicle(Model, Type, Price, BuyYear) values("${data.model}", "${data.type}", "${data.price}", "${data.buyyear}")`;
+        const sql = `insert into vehicle(Model, Type, Price, BuyYear) values("${data.newmodel}", "${data.newtype}", "${data.newprice}", "${data.newbuyyear}")`;
        
         await promisePool.query(sql);
     },

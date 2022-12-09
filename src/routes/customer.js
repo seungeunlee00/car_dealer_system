@@ -12,9 +12,9 @@ router.get('/', async (_req, res) => {
     const doneSale = await selectSql.getSaleDone(data);
 
     res.render('customer', {
-        title1: '챠량 정보 조회',
+        title1: '차량 정보 조회',
         title2: '내 예약 조회',
-        title3: '결과 조회',
+        title3: '지난 예약 조회',
         vehicle2,
         ingSale,
         doneSale
