@@ -1,5 +1,10 @@
-<h1>{{ title1 }}</h1>
+<style>
+    input{border:none; font-size: 15px; width:100px}
+</style>
 
+<h1 style="text-align:center"><관리자 페이지></h1>
+
+<h1>{{ title1 }}</h1>
 <table>
     <tr>
         <td>Vin</td>
@@ -54,13 +59,16 @@
             style="margin-left: 10px;" 
             name="insBtnV"
             type="submit" 
-            value="{{Vin}}"
             >
             추가
             </button>
         </td>
 </table>
 
+<div>
+    <button name="prev" type="submit" value="1"><</button>
+    <button name="next" type="submit" value="1">></button>
+</div>
 
 
 <h1>{{ title2 }}</h1>
@@ -76,9 +84,9 @@
     <form method="post">
     <tr>
         <td>{{idSale}}</td>
-        <td><input type="text" name="vehicle_vin" placeholder={{Vehicle_Vin}} value={{Vehicle_Vin}} /></td>
-        <td><input type="text" name="customer_ssn" placeholder={{Customer_Ssn}} value={{Customer_Ssn}} /></td>
-        <td><input type="text" name="state" placeholder={{State}} value={{State}} /></td>
+        <td><input type="text" name="vehicle_vin" placeholder={{Vehicle_Vin}} value={{Vehicle_Vin}}></td>
+        <td><input type="text" name="customer_ssn" placeholder={{Customer_Ssn}} value={{Customer_Ssn}}></td>
+        <td><input type="text" name="state" placeholder={{State}} value={{State}}></td>
         <td style="border: none; margin-left: 5px; width:60px">
             <button 
             style="margin-left: 10px;" 

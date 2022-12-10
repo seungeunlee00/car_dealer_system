@@ -11,9 +11,9 @@ router.post('/', async (req,res) => {
     const vars = req.body;
     const admin = await selectSql.getAdmin();
     const customer = await selectSql.getCustomer();
-    let whoAmI = '';
-    let ssn = '';
-    let checkLogin = false;
+    let whoAmI = ''; // 관리자 admin / 사용자 customer
+    let ssn = ''; // 사용자 ssn
+    let checkLogin = false; // login 여부
 
     admin.map((user) => {
         if(vars.id === user.id && vars.password === user.pwd) {
@@ -30,10 +30,10 @@ router.post('/', async (req,res) => {
     })
 
     if(checkLogin && whoAmI === 'admin'){
-        res.redirect('/admin');
+        res.redirect('/admin'); // 관리자 페이지로 이동
         console.log('login admin!');
     } else if(checkLogin && whoAmI === 'customer'){
-        res.redirect('/customer?ssn=' + ssn);
+        res.redirect('/customer?ssn=' + ssn); // 사용자 페이지로 이동 + ssn 전달
         console.log('login customer!');
     } else {
         console.log('login failed!');

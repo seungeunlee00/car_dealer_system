@@ -30,17 +30,14 @@ export const selectSql = {
        
         return result;
     },
-    getVehicle: async () => { // 관리자 - 전체 챠량 정보 조회
-        const sql = `select * from vehicle`;
+    getVehicle: async (data) => { // 관리자 - 전체 챠량 정보 조회
+        const sql = `select * from vehicle orders limit ${data.min}, 10`;
         const [result] = await promisePool.query(sql);
         
         return result;
     },
-    getVehicle2: async () => { // 사용자 - 예약 중, 예약 완료된 차량 제외 검색
-        const sql = `(select * from vehicle where vin not in (select vehicle_vin from sale where vehicle_vin is not null)) 
-        union 
-        (select vin, model, type, price, buyyear from vehicle, sale where vin=vehicle_vin and state='fail') 
-        order by vin asc;`;
+    getCount: async () => { // 관리자 - vehicle 총 개수  
+        const sql = `select count(*) as count from vehicle`
         const [result] = await promisePool.query(sql);
         
         return result;
@@ -51,20 +48,35 @@ export const selectSql = {
         
         return result;
     },
-    getSaleIng: async (data) => { // 사용자 - 내 현재 예약 조회
-        //console.log(data);
-        const sql = `select * from sale where Customer_Ssn=${data.ssn} and state='ing'`;
+    getVehicle2: async () => { // 사용자 - 예약 중, 예약 완료된 차량 제외 검색 -> 수정 필
+        const sql = `(select * from vehicle where vin not in (select vehicle_vin from sale where vehicle_vin is not null)) 
+        union 
+        (select vin, model, type, price, buyyear from vehicle, sale where vin=vehicle_vin and state='fail') 
+        order by vin asc;`;
         const [result] = await promisePool.query(sql);
         
         return result;
     },
-    getSaleDone: async(data)=>{ // 사용자 - 내 과거 내역 조회
+    getCount2: async () => { // 사용자 - 예약 중, 예약 완료된 차량 제외 vehicle 개수 -> 수정 필
+
+        
+    },
+    getSaleIng: async (data) => { // 사용자 - 내 현재 예약 조회
         //console.log(data);
-        const sql = `select * from sale where customer_ssn=${data.ssn} and state!='ing'`;
+        const sql = `select idSale, Vin, Model, Type, Price, BuyYear, State from sale, vehicle 
+        where customer_ssn=${data.ssn} and vehicle_vin=vin and state='ing';`;
+        const [result] = await promisePool.query(sql);
+        
+        return result;
+    },
+    getSaleDone: async (data) => { // 사용자 - 내 과거 내역 조회
+        //console.log(data);
+        const sql = `select idSale, Vin, Model, Type, Price, BuyYear, State from sale, vehicle 
+        where customer_ssn=${data.ssn} and vehicle_vin=vin and state!='ing'`;
         const [result] = await promisePool.query(sql);
 
         return result;
-    }
+    }, 
 }
 
 // delete query
@@ -110,7 +122,8 @@ export const updateSql = {
 export const insertSql = {
     insertVehicle: async (data) => { // 관리자 - 차량 정보 입력
         console.log(data);
-        const sql = `insert into vehicle(Model, Type, Price, BuyYear) values("${data.newmodel}", "${data.newtype}", "${data.newprice}", "${data.newbuyyear}")`;
+        const sql = `insert into vehicle(Model, Type, Price, BuyYear) 
+        values("${data.newmodel}", "${data.newtype}", "${data.newprice}", "${data.newbuyyear}")`;
        
         await promisePool.query(sql);
     },
