@@ -2,7 +2,7 @@
     input{border:none; font-size: 15px; width:100px}
 </style>
 
-<h1 style="text-align:center"><사용자 페이지></h1>
+<h1 style="text-align:center">My Page : {{data.name}}</h1>
 
 <h1>{{ title1 }}</h1>
 <table>
@@ -36,6 +36,11 @@
     {{/each}}
 </table>
 
+<form method="post" style="margin:10px 0px 0px 350px">
+    <button name="prev" type="submit" value="1"><</button>
+    <button name="next" type="submit" value="1">></button>
+</form>
+
 <h1>{{ title2 }}</h1>
 <table>
     <tr>
@@ -48,7 +53,7 @@
     </tr>
     {{#each ingSale}}
     <form method="post">
-        <td>{{Vin}}</td>
+        <td>{{Vin}}<input type="hidden" name="vin" value={{Vin}}></td>
         <td>{{Model}}</td>
         <td>{{Type}}</td>
         <td>{{Price}}</td>

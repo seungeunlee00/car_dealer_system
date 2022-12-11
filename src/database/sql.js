@@ -48,21 +48,19 @@ export const selectSql = {
         
         return result;
     },
-    getVehicle2: async () => { // 사용자 - 예약 중, 예약 완료된 차량 제외 검색 -> 수정 필
-        const sql = `(select * from vehicle where vin not in (select vehicle_vin from sale where vehicle_vin is not null)) 
-        union 
-        (select vin, model, type, price, buyyear from vehicle, sale where vin=vehicle_vin and state='fail') 
-        order by vin asc;`;
+    getVehicle2: async (data) => { // 사용자 - 사용자가 조회 가능한 차량 조회
+        const sql = `select * from cusvehicle orders limit ${data.min}, 10`;
         const [result] = await promisePool.query(sql);
         
         return result;
     },
-    getCount2: async () => { // 사용자 - 예약 중, 예약 완료된 차량 제외 vehicle 개수 -> 수정 필
+    getCount2: async () => { // 사용자 - 사용자가 조회 가능한 차량의 개수
+        const sql = `select count(*) as count from cusvehicle;`;
+        const [result] = await promisePool.query(sql);
 
-        
+        return result;
     },
     getSaleIng: async (data) => { // 사용자 - 내 현재 예약 조회
-        //console.log(data);
         const sql = `select idSale, Vin, Model, Type, Price, BuyYear, State from sale, vehicle 
         where customer_ssn=${data.ssn} and vehicle_vin=vin and state='ing';`;
         const [result] = await promisePool.query(sql);
@@ -70,7 +68,6 @@ export const selectSql = {
         return result;
     },
     getSaleDone: async (data) => { // 사용자 - 내 과거 내역 조회
-        //console.log(data);
         const sql = `select idSale, Vin, Model, Type, Price, BuyYear, State from sale, vehicle 
         where customer_ssn=${data.ssn} and vehicle_vin=vin and state!='ing'`;
         const [result] = await promisePool.query(sql);
@@ -82,7 +79,6 @@ export const selectSql = {
 // delete query
 export const deleteSql = {
     deleteVehicle: async(data) => { // 관리자 - 차량 정보 삭제
-        console.log(data);
         const sql = `delete from vehicle where vin=${data.vinD}`;
         
         await promisePool.query(sql);
@@ -92,45 +88,55 @@ export const deleteSql = {
 // update query
 export const updateSql = {
     updateVehicle: async(data) => { // 관리자 - 차량 정보 수정
-        console.log(data);
         const sql = `update vehicle set model='${data.model}', type='${data.type}', 
-        price='${data.price}', buyyear='${data.buyyear}' where vin=${data.vinU}`;
+        price='${data.price}', buyyear='${data.buyyear}', cusview='${data.cusview}' where vin=${data.vinU}`;
         
         await promisePool.query(sql);
     },
     updateSale: async(data) => { // 관리자 - 예약 수정
-        console.log(data);
-        const sql = `update sale set state='${data.state}' where idSale=${data.idSaleU}`;
-    
+        const sql = `update sale set vehicle_vin='${data.vehicle_vin}', customer_ssn='${data.customer_ssn}', 
+        state='${data.state}' where idSale=${data.idSaleU}`;
+       
+        let sql2=[];
+        if(data.state == 'ing' || data.state == 'success'){
+            sql2 = `update vehicle set cusview="N" where vin=${data.vehicle_vin}`;
+        } 
+        if(data.state == 'fail'){
+            sql2 = `update vehicle set cusview="Y" where vin=${data.vehicle_vin}`;
+        }
+        
         await promisePool.query(sql);
+        await promisePool.query(sql2);
     },
     updateSuccess: async(data) => { // 관리자 - 판매 성공
-        console.log(data);
         const sql = `update sale set state='success' where idSale=${data.idSaleS}`;
-    
+        const sql2 = `update vehicle set cusview ="N" where vin=${data.vehicle_vin}`;
+
         await promisePool.query(sql);
+        await promisePool.query(sql2);
     },
     updateFail: async(data) => { // 관리자 - 판매 실패, 판매자 - 예약 취소
-        console.log(data);
         const sql = `update sale set state='fail' where idSale=${data.idSaleF}`;
+        const sql2 = `update vehicle set cusview ="Y" where vin=${data.vehicle_vin}`;
     
         await promisePool.query(sql);
+        await promisePool.query(sql2);
     },
 }
 
 // insert query
 export const insertSql = {
     insertVehicle: async (data) => { // 관리자 - 차량 정보 입력
-        console.log(data);
-        const sql = `insert into vehicle(Model, Type, Price, BuyYear) 
-        values("${data.newmodel}", "${data.newtype}", "${data.newprice}", "${data.newbuyyear}")`;
+        const sql = `insert into vehicle(Model, Type, Price, BuyYear, CusView) 
+        values("${data.newmodel}", "${data.newtype}", "${data.newprice}", "${data.newbuyyear}", "${data.newcusview}")`;
        
         await promisePool.query(sql);
     },
     insertSale: async(data)=>{ // 사용자 - 차량 예약하기
-        console.log(data);
         const sql = `insert into sale(vehicle_vin, customer_ssn, state) values(${data.vin}, ${data.ssn}, "ing")`;
+        const sql2 = `update vehicle set cusview="N" where vin=${data.vin}`;
 
         await promisePool.query(sql);
+        await promisePool.query(sql2);
     }
 }

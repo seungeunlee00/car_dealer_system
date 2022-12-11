@@ -2,7 +2,7 @@
     input{border:none; font-size: 15px; width:100px}
 </style>
 
-<h1 style="text-align:center"><관리자 페이지></h1>
+<h1 style="text-align:center">Admin Page : {{data.name}}</h1>
 
 <h1>{{ title1 }}</h1>
 <table>
@@ -12,6 +12,7 @@
         <td>Type</td>
         <td>Price</td>
         <td>BuyYear</td>
+        <td>CusView</td>
     </tr>
     {{#each vehicle}}
     <form method="post">
@@ -21,6 +22,7 @@
         <td><input type="text" name="type" placeholder={{Type}} value={{Type}} /></td>
         <td><input type="text" name="price" placeholder={{Price}} value={{Price}} /></td>
         <td><input type="text" name="buyyear" placeholder={{BuyYear}} value={{BuyYear}} /></td>
+        <td><input type="text" name="cusview" placeholder={{CusView}} value={{CusView}} /></td>
         <td style="border: none; margin-left: 5px; width:70px">
             <button 
             style="margin-left: 10px;" 
@@ -54,6 +56,7 @@
         <td><input type="text" name="newtype" /></td>
         <td><input type="text" name="newprice" /></td>
         <td><input type="text" name="newbuyyear" /></td>
+        <td><input type="text" name="newcusview" /></td>
         <td style="border: none; margin-left: 5px; width:70px">
             <button 
             style="margin-left: 10px;" 
@@ -65,14 +68,13 @@
         </td>
 </table>
 
-<div>
-    <button name="prev" type="submit" value="1"><</button>
+<form method="post">
+    <button name="prev" type="submit" value="1" style="margin:14px 0px 0px 450px"><</button>
     <button name="next" type="submit" value="1">></button>
-</div>
+</form>
 
 
 <h1>{{ title2 }}</h1>
-
 <table>
     <tr>
         <td>idSale</td>
