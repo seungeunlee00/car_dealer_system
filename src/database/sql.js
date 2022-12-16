@@ -94,29 +94,32 @@ export const updateSql = {
         await promisePool.query(sql);
     },
     updateSale: async(data) => { // 관리자 - 예약 수정
-        const sql = `update sale set vehicle_vin='${data.vehicle_vin}', customer_ssn='${data.customer_ssn}', 
-        state='${data.state}' where idSale=${data.idSaleU}`;
-       
-        let sql2=[];
+        const sql = `update salev set vehicle_vin='${data.vehicle_vin}' where idSale=${data.idSaleU}`;
+        const sql2 = `update salec set customer_ssn='${data.customer_ssn}' where idSale=${data.idSaleU}`;
+        const sql3 = `update sales set state='${data.state}' where idSale=${data.idSaleU}`;
+
+        let sql4=[];
         if(data.state == 'ing' || data.state == 'success'){
-            sql2 = `update vehicle set cusview="N" where vin=${data.vehicle_vin}`;
+            sql4 = `update vehicle set cusview="N" where vin=${data.vehicle_vin}`;
         } 
         if(data.state == 'fail'){
-            sql2 = `update vehicle set cusview="Y" where vin=${data.vehicle_vin}`;
+            sql4 = `update vehicle set cusview="Y" where vin=${data.vehicle_vin}`;
         }
         
         await promisePool.query(sql);
         await promisePool.query(sql2);
+        await promisePool.query(sql3);
+        await promisePool.query(sql4);
     },
     updateSuccess: async(data) => { // 관리자 - 판매 성공
-        const sql = `update sale set state='success' where idSale=${data.idSaleS}`;
+        const sql = `update sales set state='success' where idSale=${data.idSaleS}`;
         const sql2 = `update vehicle set cusview ="N" where vin=${data.vehicle_vin}`;
 
         await promisePool.query(sql);
         await promisePool.query(sql2);
     },
     updateFail: async(data) => { // 관리자 - 판매 실패, 판매자 - 예약 취소
-        const sql = `update sale set state='fail' where idSale=${data.idSaleF}`;
+        const sql = `update sales set state='fail' where idSale=${data.idSaleF}`;
         const sql2 = `update vehicle set cusview ="Y" where vin=${data.vehicle_vin}`;
     
         await promisePool.query(sql);
@@ -133,10 +136,14 @@ export const insertSql = {
         await promisePool.query(sql);
     },
     insertSale: async(data)=>{ // 사용자 - 차량 예약하기
-        const sql = `insert into sale(vehicle_vin, customer_ssn, state) values(${data.vin}, ${data.ssn}, "ing")`;
-        const sql2 = `update vehicle set cusview="N" where vin=${data.vin}`;
+        const sql = `insert into sales(state) values("ing")`;
+        const sql2 = `insert into salev(vehicle_vin) values(${data.vin})`;
+        const sql3 = `insert into salec(customer_ssn) values(${data.ssn})`;
+        const sql4 = `update vehicle set cusview="N" where vin=${data.vin}`;
 
         await promisePool.query(sql);
         await promisePool.query(sql2);
+        await promisePool.query(sql3);
+        await promisePool.query(sql4);
     }
 }
