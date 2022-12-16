@@ -8,22 +8,22 @@ router.get('/', (req,res) => {
 })
 
 router.post('/', async (req,res) => {
-    const vars = req.body;
-    const admin = await selectSql.getAdmin();
-    const customer = await selectSql.getCustomer();
+    const vars = req.body; // 입력받은 id, password
+    const admin = await selectSql.getAdmin(); // 관리자 Select 조회 쿼리
+    const customer = await selectSql.getCustomer(); // 사용자 Select 조회 쿼리
     let whoAmI = ''; // 관리자 admin / 사용자 customer
     let ssn = ''; // 사용자 ssn
     let name= ''; // 관리자, 사용자 name
     let checkLogin = false; // login 여부
 
-    admin.map((user) => {
+    admin.map((user) => { // 관리자 id, pwd 조회
         if(vars.id === user.id && vars.password === user.pwd) {
-            checkLogin = true;
+            checkLogin = true; 
             whoAmI = 'admin';
             name = user.Name;
         }
     })
-    customer.map((user) => {
+    customer.map((user) => { // 사용자 id, pwd 조회
         if(vars.id === user.id && vars.password === user.pwd) {
             checkLogin = true;
             whoAmI = 'customer';

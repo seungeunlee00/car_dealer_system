@@ -18,13 +18,13 @@ const promisePool = pool.promise();
 
 // select query
 export const selectSql = {
-    getAdmin: async () => { // 로그인
+    getAdmin: async () => { // 로그인 - 관리자
         const sql = `select * from admin`;
         const [result] = await promisePool.query(sql);
         
         return result;
     },
-    getCustomer: async () => { // 로그인
+    getCustomer: async () => { // 로그인 - 사용자
         const sql = `select * from customer`;
         const [result] = await promisePool.query(sql);
        
@@ -98,11 +98,11 @@ export const updateSql = {
         const sql2 = `update salec set customer_ssn='${data.customer_ssn}' where idSale=${data.idSaleU}`;
         const sql3 = `update sales set state='${data.state}' where idSale=${data.idSaleU}`;
 
-        let sql4=[];
-        if(data.state == 'ing' || data.state == 'success'){
+        let sql4=[]; // 사용자 조회 가능 여부 업데이트 
+        if(data.state == 'ing' || data.state == 'success'){ // 예약 중 or 판매 성공
             sql4 = `update vehicle set cusview="N" where vin=${data.vehicle_vin}`;
         } 
-        if(data.state == 'fail'){
+        if(data.state == 'fail'){ // 예약 취소 or 판매 실패
             sql4 = `update vehicle set cusview="Y" where vin=${data.vehicle_vin}`;
         }
         
