@@ -5,8 +5,8 @@ const router = express.Router();
 
 // 페이지네이션 구현을 위한 변수
 let page = {
-    min: 0,
-    max: 0
+    min: 0, // min번째부터 데이터 10개씩 조회
+    max: 0 // 총 vehicle의 개수
 }
 
 router.get('/', async (_req, res) => {
@@ -15,9 +15,9 @@ router.get('/', async (_req, res) => {
         name: _req.query.name 
     }
     const vehicle2 = await selectSql.getVehicle2(page); // customer가 조회할 수 있는 vehicle
+    const ingSale = await selectSql.getSaleIng(data); // 내 현재 예약 조회 (state: 'ing')
+    const doneSale = await selectSql.getSaleDone(data); // 내 지난 예약 조회 (state: 'success' or 'fail')
     const count = await selectSql.getCount2(); // customer가 조회할 수 있는 vehicle의 개수
-    const ingSale = await selectSql.getSaleIng(data); // 내 현재 예약 조회 
-    const doneSale = await selectSql.getSaleDone(data); // 내 지난 예약 조회
 
     /* count table에서 vehicle의 개수만 추출 */
     // console.log(count); -> [ { count: 11 } ]
@@ -41,11 +41,11 @@ router.post('/', async(req, res) => {
     const data = {
         ssn: req.query.ssn, // 사용자 ssn
         name: req.query.name, // 사용자 name
-        vin: req.body.ingBtn, // 예약하기 vin
-        idSaleF: req.body.failBtn, // 예약 취소 idsale
+        vin: req.body.ingBtn, // 예약하기 버튼 - vin
+        idSaleF: req.body.failBtn, // 예약 취소 버튼 - idsale
         vehicle_vin: req.body.vin, // 예약 취소 vin
-        prev: req.body.prev, // vehicle prev
-        next: req.body.next, // vehicle next
+        prev: req.body.prev, // vehicle prev 버튼 - 1
+        next: req.body.next, // vehicle next 버튼 - 1
     };
     console.log(data);
 
